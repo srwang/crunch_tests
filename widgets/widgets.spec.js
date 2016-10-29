@@ -27,13 +27,15 @@ describe('Widgets Display', function(){
 			expect((widgets.investorsCounter).getText()).toEqual(widgets.investorsCount);
 		});
 
-		// it('should persist on scroll', function(){
-		// 	browser.executeScript('window.scrollTo(0,2000);');
-		// 	widgets.header.getLocation().then(function(loc){
-		// 		expect(loc.x).toBe(0);
-		// 		expect(loc.y).toBe(0);
-		// 	})
-		// });
+		it('should persist on scroll', function(){
+			widgets.header.getLocation().then(function(startLoc){
+				browser.executeScript('window.scrollTo(0,1500);');
+
+				widgets.header.getLocation().then(function(endLoc){
+					expect(endLoc.y).toEqual(1500 + startLoc.y);
+				});
+			});
+		});
 	});
 
 	//async callback error
