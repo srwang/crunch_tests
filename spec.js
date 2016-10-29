@@ -1,21 +1,23 @@
-var pageObject = require('pageObject.js');
+var page = require('./pageObject'),
+	EC = protractor.ExpectedConditions;
 
 describe('Landing Display', function(){
 
-	beforeAll(function() {
-		browser.get('http://crunchinator.com/#/crunchinator');
-		expect((landingDiv).isDisplayed()).toBe(true);
+	beforeEach(function() {
+		browser.get(browser.baseUrl);
+		expect((page.landingDiv).isDisplayed()).toBe(true);
 	});
 
 	it('should display header and videos', function(){
-		expect((landingHeader).isDisplayed()).toBe(true);
-		expect((landingVideos).isDisplayed()).toBe(true);
+		expect((page.landingHeader).isDisplayed()).toBe(true);
+		expect((page.landingVideos).isDisplayed()).toBe(true);
 	});
 
 	it('should show Cruchinator link when page loaded', function(){
-		expect((loadingText).isDisplayed()).toBe(true);
-		browser.wait(expect((loadingText).isDisplayed()).toBe(false), 25000);
-		expect((readyText).isDisplayed()).toBe(true);
+		expect((page.loadingText).isPresent()).toBe(true); //not finding displayed? 
+		//text says it'll load in 10-20
+		browser.wait(EC.invisibilityOf(page.loadingText), 25000);
+		browser.wait(EC.visibilityOf(page.readyText), 25000);
 	});
 });
 
