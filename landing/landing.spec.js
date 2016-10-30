@@ -1,7 +1,8 @@
-var landing = require('./landing.pageObject'),
-	EC = protractor.ExpectedConditions;
+var LandingPage = require('./landing.pageObject');
 
 describe('Landing Display', function(){
+	var landing = new LandingPage(),
+		EC = protractor.ExpectedConditions;
 
 	beforeEach(function() {
 		browser.get(browser.baseUrl);
