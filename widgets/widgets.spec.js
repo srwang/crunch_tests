@@ -53,28 +53,23 @@ describe('Widgets Display', function(){
 				expect(element(by.cssContainingText('.ss-active-child h3.ng-binding', title)).isDisplayed()).toBe(true);
 			});
 		});
+	});
 
-		it('"Companies" should handle one search filter', function(){
+	describe('Companies', function(){
+
+		it('should handle one search filter', function(){
 			//send in sample search term
 			widgets.companiesSearch.sendKeys(widgets.compSearchTerm);
 			expect((widgets.companiesDropdown).isDisplayed()).toBe(true);
 			expect((widgets.compExpectedResult).isDisplayed()).toBe(true);
 			widgets.compExpectedResult.click();
-			//check "crunching" text
-			expect((widgets.loadText).isDisplayed()).toBe(true);
 			expect((widgets.filterName).getText()).toEqual(widgets.selectedCompany);
-			browser.sleep(1500);
-			expect((widgets.logo).isDisplayed()).toBe(true);
-
+			//check "crunching" text
+			widgets.checkLoadText();
+			//see if data changed across widgets 
 			widgets.checkWidgetResults(widgets.compSearchResult);
 
-
-			//data has changed across several widgets
 			//make sure things revert when you click "X"
 		});
-
-	})
-
-	//async callback error
-	//before all?
+	});
 }); 
