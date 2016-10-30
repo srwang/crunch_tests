@@ -19,31 +19,31 @@ describe('Widgets Display', function(){
 		expect((widgets.header).isDisplayed()).toBe(true);
 	});
 
-	// describe('Header', function(){
+	describe('Header', function(){
 
-	// 	it('should have prepopulated data', function(){
-	// 		expect((widgets.logo).isDisplayed()).toBe(true);
-	// 		expect((widgets.socialLinks).isDisplayed()).toBe(true);
-	// 		expect((widgets.amountCounter).isDisplayed()).toBe(true);
+		it('should have prepopulated data', function(){
+			expect((widgets.logo).isDisplayed()).toBe(true);
+			expect((widgets.socialLinks).isDisplayed()).toBe(true);
+			expect((widgets.amountCounter).isDisplayed()).toBe(true);
 
-	// 		expect((widgets.companiesCounter).getText()).not.toEqual('');
-	// 		expect((widgets.investorsCounter).getText()).not.toEqual('');
-	// 	});
+			expect((widgets.companiesCounter).getText()).not.toEqual('');
+			expect((widgets.investorsCounter).getText()).not.toEqual('');
+		});
 
-	// 	it('should persist on scroll', function(){
-	// 		widgets.header.getLocation().then(function(startLoc){
-	// 			browser.executeScript('window.scrollTo(0,1500);');
+		it('should persist on scroll', function(){
+			widgets.header.getLocation().then(function(startLoc){
+				browser.executeScript('window.scrollTo(0,1500);');
 
-	// 			widgets.header.getLocation().then(function(endLoc){
-	// 				expect(endLoc.y).toEqual(1500 + startLoc.y);
-	// 			});
-	// 		});
-	// 	});
-	// });
+				widgets.header.getLocation().then(function(endLoc){
+					expect(endLoc.y).toEqual(1500 + startLoc.y);
+				});
+			});
+		});
+	});
 
 	describe('Widgets', function(){
 
-		it('all widgets should appear on page', function(){
+		it('expected widgets should appear on page', function(){
 
 			widgets.allWidgets.then(function(elements){
 				expect(elements.length).toEqual(15);
@@ -54,8 +54,23 @@ describe('Widgets Display', function(){
 			});
 		});
 
-		it('"Companies" should have functioning search filter', function(){
+		it('"Companies" should handle one search filter', function(){
+			//send in sample search term
+			widgets.companiesSearch.sendKeys(widgets.compSearchTerm);
+			expect((widgets.companiesDropdown).isDisplayed()).toBe(true);
+			expect((widgets.compExpectedResult).isDisplayed()).toBe(true);
+			widgets.compExpectedResult.click();
+			//check "crunching" text
+			expect((widgets.loadText).isDisplayed()).toBe(true);
+			expect((widgets.filterName).getText()).toEqual(widgets.selectedCompany);
+			browser.sleep(1500);
+			expect((widgets.logo).isDisplayed()).toBe(true);
 
+			widgets.checkWidgetResults(widgets.compSearchResult);
+
+
+			//data has changed across several widgets
+			//make sure things revert when you click "X"
 		});
 
 	})
