@@ -6,7 +6,7 @@ exports.config = {
 			'widgets/widgets.spec.js'
 			],
 	multiCapabilities: [{
-		//browserName: 'firefox'
+		browserName: 'firefox'
 	}, {
 		browserName: 'chrome'
 	}],
