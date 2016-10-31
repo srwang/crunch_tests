@@ -19,7 +19,15 @@ var WidgetsPage = function () {
     this.activePath = element(by.css('path[fill="#8acff7"]'));
     this.fundingList = element.all(by.css('[chart-title="Funding: Round Name"] .list-item'));
     this.investmentsSVG = element(by.css('[chart-title="Investments"] .foreground'));
+    this.totalFundingSVG = element(by.css('[chart-title="Funding: Total Funding"] .foreground'));
+    this.anyRoundFundingSVG = element(by.css('[chart-title="Funding: Any Round"] .foreground'));
+    this.lastestRoundFundingSVG = element(by.css('[chart-title="Funding: Latest Round"] .foreground'));
+    this.acqDateSVG = element(by.css('[chart-title="Acquisition Date"] .foreground'));
+    this.acqPriceSVG = element(by.css('[chart-title="Acquisition Price"] .foreground'));
     this.foundingSVG = element(by.css('[chart-title="Founding Date"] .foreground'));
+    this.ipoDateSVG = element(by.css('[chart-title="IPO Date"] .foreground'));
+    this.ipoRaiseSVG = element(by.css('[chart-title="IPO Raise"] .foreground'));
+    this.categoriesList = element.all(by.css('[chart-title="Categories"] .list-item'));
 
     //DATA TO VALIDATE
     this.widgetTitles = ['Companies', 'Company HQ', 'Investors', 'Company Status', 'Funding: Round Name', 'Investments', 'Funding: Total Funding', 'Funding: Any Round', 'Funding: Latest Round', 'Categories', 'Acquisition Date', 'Acquisition Price', 'Founding Date', 'IPO Date', 'IPO Raise'];
@@ -27,6 +35,8 @@ var WidgetsPage = function () {
     //searching companies
     this.compSearchTerm = '1000';
     this.compExpectedResult = element(by.cssContainingText('li', '1000memories'));
+    this.compCountResult = '20526';
+    this.invCountResult = '10';
     this.selectedCompany = '1000memories';
 
     this.compSearchResult = {
@@ -40,8 +50,16 @@ var WidgetsPage = function () {
     		'active': null
     	},
     	'funding' : ['Seed', 'Series A'],
-    	// 'investmentsPathSamples': ['M0,290L1.54308041666422,290L2.9866072580597804', '290L207.5173536147023,290L209.0106572437322,290L210.5537376603964', '290L2.9866072580597804,290L1.54308041666422,290L0,290Z'],
-    	// 'foundingPathSamples':['M0,290L12.348717692678713,290L24.663695719530434', '290L295.76191063940325,290L295.76191063940325', '290L24.663695719530434,290L12.348717692678713,290L0,290Z']
+    	'investments' : true,
+    	'total funding' : true,
+    	'any round funding' : true,
+    	'latest round funding' : true,
+    	'categories' : ['Consumer Web'],
+    	'acquisition date' : true,
+    	'acquisition price' : false,
+    	'founding date' : true,
+    	'ipo date' : false,
+    	'ipo raise' : false
     }
 
     //HELPER FUNCTIONS
@@ -50,6 +68,11 @@ var WidgetsPage = function () {
     	expect((this.loadText).isDisplayed()).toBe(true);
 		browser.sleep(1500);
 		expect((this.logo).isDisplayed()).toBe(true);
+    }
+
+    this.checkHeaderInfo = function(comp, inv) {
+    	expect((this.companiesCounter).getText()).toEqual(comp);
+    	expect((this.investorsCounter).getText()).toEqual(inv);
     }
     
     this.checkWidgetResults = function(result){  
@@ -77,17 +100,49 @@ var WidgetsPage = function () {
     		checkStatus(this.activePath, 'active');
     	};
 
-    	// if (result.changedWidget !== 'funding') {
-    	// 	checkList(this.fundingList, result.funding);
-    	// };
+    	if (result.changedWidget !== 'funding') {
+    		checkList(this.fundingList, result.funding);
+    	};
 
-    	// if (result.changedWidget !== 'investments') {
-    	// 	checkPath(this.investmentsSVG, result.investmentsPathSamples);
-    	// };
+    	if(result.changedWidget !== 'investments') {
+    		checkSVG(this.investmentsSVG, 'investments');
+    	};
 
-    	// if (result.changedWidget !== 'founding') {
-    	// 	checkPath(this.foundingSVG, result.foundingPathSamples);
-    	// };
+    	if(result.changedWidget !== 'total funding') {
+    		checkSVG(this.totalFundingSVG, 'total funding');
+    	};
+
+    	if(result.changedWidget !== 'any round funding') {
+    		checkSVG(this.anyRoundFundingSVG, 'any round funding');
+    	};
+
+    	if(result.changedWidget !== 'latest round funding') {
+    		checkSVG(this.lastestRoundFundingSVG, 'latest round funding');
+    	};
+
+    	if (result.changedWidget !== 'categories') {
+    		checkList(this.categoriesList, result.categories);
+    	};
+
+    	if (result.changedWidget !== 'acquisition date') {
+    		checkSVG(this.acqDateSVG, 'acquisition date');
+    	};
+
+    	if (result.changedWidget !== 'acquisition price') {
+    		checkSVG(this.acqPriceSVG, 'acquisition price');
+    	};
+
+    	if (result.changedWidget !== 'founding date') {
+    		checkSVG(this.foundingSVG, 'founding date');
+    	};
+
+    	if (result.changedWidget !== 'ipo date') {
+    		checkSVG(this.ipoDateSVG, 'ipo date');
+    	};
+
+    	if (result.changedWidget !== 'ipo raise') {
+    		checkSVG(this.ipoRaiseSVG, 'ipo raise');
+    	};
 
     	function checkList(elArr, expected) {
     		elArr.then(function(listItems){
@@ -98,15 +153,14 @@ var WidgetsPage = function () {
     		});
     	};
 
-    	// function checkPath(el, pathSamples) {
-    	// 	pathSamples.forEach(function(path){
-	    // 		expect(el.getAttribute('d')).toContain(path);
-    	// 	});
-    	// };
-
-    	// function checkRectPath(el, ) {
-    	// 	//check the path of the rect(s) that have a fill
-    	// }
+    	function checkSVG(el, type) {
+    		//specific paths for SVG are slightly diff each time page loads
+    		if (result.status[type] === true) {
+    			expect(el.isDisplayed()).toBe(true);
+    		} else {
+    			expect(el.isDisplayed()).toBe(false);
+    		}
+    	}
 
     }.bind(this);
 }
