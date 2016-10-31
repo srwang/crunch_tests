@@ -10,9 +10,9 @@ var WidgetsPage = function () {
     this.companiesWidget = element(by.css('[chart-title="Companies"]'));
     this.companiesTitle = this.companiesWidget.$('.head');
     this.hqWidget = element(by.css('[chart-title="Company HQ"]'));
-    this.companiesSearch = element(by.css('[chart-title="Companies"] input'));
-    this.companiesDropdown = element(by.css('[chart-title="Companies"] .dropdown-menu'));
-    this.companiesList = element.all(by.css('[chart-title="Companies"] .list-item'));
+    this.companiesSearch = this.companiesWidget.$('input');
+    this.companiesDropdown = this.companiesWidget.$('.dropdown-menu');
+    this.companiesList = this.companiesWidget.$('.list-item');
     this.filterName = element(by.className('filter_name'));
     this.loadText = element(by.css('h2.loading'));
     this.investorsList = element.all(by.css('[chart-title="Investors"] .list-item'));
@@ -53,16 +53,7 @@ var WidgetsPage = function () {
     		'active': null
     	},
     	'funding' : ['Seed', 'Series A'],
-    	'investments' : true,
-    	'total funding' : true,
-    	'any round funding' : true,
-    	'latest round funding' : true,
-    	'categories' : ['Consumer Web'],
-    	'acquisition date' : true,
-    	'acquisition price' : false,
-    	'founding date' : true,
-    	'ipo date' : false,
-    	'ipo raise' : false
+    	'categories' : ['Consumer Web']
     }
 
     //HELPER FUNCTIONS
@@ -107,44 +98,8 @@ var WidgetsPage = function () {
     		checkList(this.fundingList, result.funding);
     	};
 
-    	if(result.changedWidget !== 'investments') {
-    		checkSVG(this.investmentsSVG, 'investments');
-    	};
-
-    	if(result.changedWidget !== 'total funding') {
-    		checkSVG(this.totalFundingSVG, 'total funding');
-    	};
-
-    	if(result.changedWidget !== 'any round funding') {
-    		checkSVG(this.anyRoundFundingSVG, 'any round funding');
-    	};
-
-    	if(result.changedWidget !== 'latest round funding') {
-    		checkSVG(this.lastestRoundFundingSVG, 'latest round funding');
-    	};
-
     	if (result.changedWidget !== 'categories') {
     		checkList(this.categoriesList, result.categories);
-    	};
-
-    	if (result.changedWidget !== 'acquisition date') {
-    		checkSVG(this.acqDateSVG, 'acquisition date');
-    	};
-
-    	if (result.changedWidget !== 'acquisition price') {
-    		checkSVG(this.acqPriceSVG, 'acquisition price');
-    	};
-
-    	if (result.changedWidget !== 'founding date') {
-    		checkSVG(this.foundingSVG, 'founding date');
-    	};
-
-    	if (result.changedWidget !== 'ipo date') {
-    		checkSVG(this.ipoDateSVG, 'ipo date');
-    	};
-
-    	if (result.changedWidget !== 'ipo raise') {
-    		checkSVG(this.ipoRaiseSVG, 'ipo raise');
     	};
 
     	function checkList(elArr, expected) {
@@ -155,15 +110,6 @@ var WidgetsPage = function () {
     			};
     		});
     	};
-
-    	function checkSVG(el, type) {
-    		//specific paths for SVG are slightly diff each time page loads
-    		// if (result.status[type] === true) {
-    		// 	expect(el.isDisplayed()).toBe(true);
-    		// } else {
-    		// 	expect(el.isDisplayed()).toBe(false);
-    		// }
-    	}
 
     }.bind(this);
 }
