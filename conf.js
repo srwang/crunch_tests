@@ -8,7 +8,7 @@ exports.config = {
 	multiCapabilities: [{
 		browserName: 'firefox'
 	}, {
-		browserName: 'chrome'
+		//browserName: 'chrome'
 	}],
 	baseUrl: 'http://crunchinator.com/#/crunchinator',
 	allScriptsTimeout: 50000,

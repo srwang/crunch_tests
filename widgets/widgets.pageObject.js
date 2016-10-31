@@ -7,6 +7,9 @@ var WidgetsPage = function () {
     this.companiesCounter = element(by.cssContainingText('li', ' Companies')).$('span');
     this.investorsCounter = element(by.cssContainingText('li', ' Investors')).$('span');
     this.allWidgets = element.all(by.className('drag-contain')).all(by.className('ss-active-child'));
+    this.companiesWidget = element(by.css('[chart-title="Companies"]'));
+    this.companiesTitle = this.companiesWidget.$('.head');
+    this.hqWidget = element(by.css('[chart-title="Company HQ"]'));
     this.companiesSearch = element(by.css('[chart-title="Companies"] input'));
     this.companiesDropdown = element(by.css('[chart-title="Companies"] .dropdown-menu'));
     this.companiesList = element.all(by.css('[chart-title="Companies"] .list-item'));
