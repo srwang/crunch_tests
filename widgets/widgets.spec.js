@@ -19,41 +19,41 @@ describe('Widgets Display', function(){
 		expect((widgets.header).isDisplayed()).toBe(true);
 	});
 
-	describe('Header', function(){
+	// describe('Header', function(){
 
-		it('should have prepopulated data', function(){
-			expect((widgets.logo).isDisplayed()).toBe(true);
-			expect((widgets.socialLinks).isDisplayed()).toBe(true);
-			expect((widgets.amountCounter).isDisplayed()).toBe(true);
+	// 	it('should have prepopulated data', function(){
+	// 		expect((widgets.logo).isDisplayed()).toBe(true);
+	// 		expect((widgets.socialLinks).isDisplayed()).toBe(true);
+	// 		expect((widgets.amountCounter).isDisplayed()).toBe(true);
 
-			expect((widgets.companiesCounter).getText()).not.toEqual('');
-			expect((widgets.investorsCounter).getText()).not.toEqual('');
-		});
+	// 		expect((widgets.companiesCounter).getText()).not.toEqual('');
+	// 		expect((widgets.investorsCounter).getText()).not.toEqual('');
+	// 	});
 
-		it('should persist on scroll', function(){
-			widgets.header.getLocation().then(function(startLoc){
-				browser.executeScript('window.scrollTo(0,1500);');
+	// 	it('should persist on scroll', function(){
+	// 		widgets.header.getLocation().then(function(startLoc){
+	// 			browser.executeScript('window.scrollTo(0,1500);');
 
-				widgets.header.getLocation().then(function(endLoc){
-					expect(endLoc.y).toEqual(1500 + startLoc.y);
-				});
-			});
-		});
-	});
+	// 			widgets.header.getLocation().then(function(endLoc){
+	// 				expect(endLoc.y).toEqual(1500 + startLoc.y);
+	// 			});
+	// 		});
+	// 	});
+	// });
 
-	describe('Widgets', function(){
+	// describe('Widgets', function(){
 
-		it('expected widgets should appear on page', function(){
+	// 	it('expected widgets should appear on page', function(){
 
-			widgets.allWidgets.then(function(elements){
-				expect(elements.length).toEqual(15);
-			});
+	// 		widgets.allWidgets.then(function(elements){
+	// 			expect(elements.length).toEqual(15);
+	// 		});
 
-			widgets.widgetTitles.forEach(function(title){
-				expect(element(by.cssContainingText('.ss-active-child h3.ng-binding', title)).isDisplayed()).toBe(true);
-			});
-		});
-	});
+	// 		widgets.widgetTitles.forEach(function(title){
+	// 			expect(element(by.cssContainingText('.ss-active-child h3.ng-binding', title)).isDisplayed()).toBe(true);
+	// 		});
+	// 	});
+	// });
 
 	describe('Companies', function(){
 
@@ -68,8 +68,6 @@ describe('Widgets Display', function(){
 			widgets.checkLoadText();
 			//see if data changed across widgets 
 			widgets.checkWidgetResults(widgets.compSearchResult);
-
-			//make sure things revert when you click "X"
 		});
 	});
 }); 
